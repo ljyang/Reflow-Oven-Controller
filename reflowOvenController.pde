@@ -139,21 +139,25 @@ const char* lcdMessagesReflowStatus[] = {
 unsigned char degree[8]  = {140,146,146,140,128,128,128,128};
 
 // ***** PIN ASSIGNMENT *****
-int ssr = 5;
-int thermocoupleSO = A5;
-int thermocoupleCS = A4;
-int thermocoupleCLK = A3;
-int lcdRs = 7;
-int lcdE = 8;
-int lcdD4 = 9;
-int lcdD5 = 10;
-int lcdD6 = 11;
-int lcdD7 = 12;
-int ledRed = A1;
-int ledGreen = A0;
-int buzzer = 6;
+int ssr = 8;
+int thermocoupleSO = 5;
+int thermocoupleCS = 6;
+int thermocoupleCLK = 7;
+//int lcdRs = 7;
+//int lcdE = 8;
+//int lcdD4 = 9;
+//int lcdD5 = 10;
+//int lcdD6 = 11;
+//int lcdD7 = 12;
+int ledRed = 9;
+int ledGreen = 4;
+int buzzer = 3;
 int button1 = 2;
-int button2 = 3;
+int button2 = A7;
+
+int lcdser = A0;
+int lcdlatch = A1;
+int lcdclk = A2;
 
 // ***** PID CONTROL VARIABLES *****
 double setpoint;
@@ -184,7 +188,8 @@ int timerSeconds;
 // Specify PID control interface
 PID reflowOvenPID(&input, &output, &setpoint, kp, ki, kd, DIRECT);
 // Specify LCD interface
-LiquidCrystal lcd(lcdRs, lcdE, lcdD4, lcdD5, lcdD6, lcdD7);
+//LiquidCrystal lcd(lcdRs, lcdE, lcdD4, lcdD5, lcdD6, lcdD7);
+LiquidCrystal lcd(lcdser, lcdclk, lcdlatch);
 // Specify MAX6675 thermocouple interface
 MAX6675 thermocouple(thermocoupleCLK, thermocoupleCS, thermocoupleSO);
 
@@ -209,7 +214,7 @@ void setup()
     
     // Start-up splash
     digitalWrite(buzzer, HIGH);
-    lcd.begin(8, 2);
+    lcd.begin(16, 2);
     lcd.createChar(0, degree);
     lcd.clear();
     lcd.print("Reflow");
